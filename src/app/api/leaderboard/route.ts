@@ -1,15 +1,9 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getAll, Collections, where, orderBy, limit } from "@/lib/firestore";
 
 export async function GET() {
-  const event = await prisma.event.findFirst({
-    orderBy: { year: "desc" },
-    include: {
-      soups: { select: { id: true, name: true, cookName: true, number: true, dietaryTags: true } },
-      guests: { where: { rsvpStatus: "CONFIRMED" }, select: { id: true } },
-      ballots: { select: { rankings: true } },
-    },
-  });
+  const events = await getAll(Collections.events, orderBy("year", "desc"), limit(1));
+  const event = events[0];
 
   if (!event) {
     return NextResponse.json({
@@ -21,10 +15,18 @@ export async function GET() {
     });
   }
 
+  const soups = await getAll(Collections.soups, where("eventId", "==", event.id));
+  const confirmedGuests = await getAll(
+    Collections.guests,
+    where("eventId", "==", event.id),
+    where("rsvpStatus", "==", "CONFIRMED")
+  );
+  const ballots = await getAll(Collections.ballots, where("eventId", "==", event.id));
+
   // Count first-place votes
   const voteCount: Record<string, number> = {};
-  for (const ballot of event.ballots) {
-    const firstPick = ballot.rankings[0];
+  for (const ballot of ballots) {
+    const firstPick = (ballot.rankings as string[])[0];
     if (firstPick) {
       voteCount[firstPick] = (voteCount[firstPick] || 0) + 1;
     }
@@ -35,28 +37,28 @@ export async function GET() {
     .sort(([, a], [, b]) => b - a)
     .slice(0, 5)
     .map(([soupId, votes]) => {
-      const soup = event.soups.find((s) => s.id === soupId);
+      const soup = soups.find((s) => s.id === soupId);
       return {
         soupId,
-        name: soup?.name || "Unknown",
-        cookName: soup?.cookName || "Unknown",
-        number: soup?.number || null,
+        name: (soup?.name as string) || "Unknown",
+        cookName: (soup?.cookName as string) || "Unknown",
+        number: (soup?.number as number) || null,
         votes,
       };
     });
 
   // Dietary breakdown
   const dietaryBreakdown: Record<string, number> = {};
-  for (const soup of event.soups) {
-    for (const tag of soup.dietaryTags) {
+  for (const soup of soups) {
+    for (const tag of (soup.dietaryTags as string[]) || []) {
       dietaryBreakdown[tag] = (dietaryBreakdown[tag] || 0) + 1;
     }
   }
 
   return NextResponse.json({
-    votePulse: { cast: event.ballots.length, total: event.guests.length },
+    votePulse: { cast: ballots.length, total: confirmedGuests.length },
     top5,
-    totalSoups: event.soups.length,
+    totalSoups: soups.length,
     votingOpen: event.votingOpen,
     dietaryBreakdown,
   });

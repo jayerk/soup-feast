@@ -1,60 +1,77 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getAll, Collections, where, orderBy, limit } from "@/lib/firestore";
 import { runRCV, computeAwards } from "@/lib/rcv";
 
 export async function GET() {
-  const event = await prisma.event.findFirst({
-    orderBy: { year: "desc" },
-    where: { resultsRevealed: true },
-    include: {
-      soups: { orderBy: { createdAt: "asc" } },
-      ballots: true,
-      tastingNotes: true,
-    },
-  });
+  // Get the latest event with resultsRevealed = true
+  const events = await getAll(
+    Collections.events,
+    where("resultsRevealed", "==", true),
+    orderBy("year", "desc"),
+    limit(1)
+  );
+  const event = events[0];
 
   if (!event) {
     return NextResponse.json({ revealed: false });
   }
 
-  const soupIds = event.soups.map((s) => s.id);
+  // Fetch related data
+  const soups = await getAll(
+    Collections.soups,
+    where("eventId", "==", event.id),
+    orderBy("createdAt", "asc")
+  );
+  const ballots = await getAll(Collections.ballots, where("eventId", "==", event.id));
+  const tastingNotes = await getAll(Collections.tastingNotes, where("eventId", "==", event.id));
+
+  const soupIds = soups.map((s) => s.id as string);
   const registrationOrder: Record<string, number> = {};
-  event.soups.forEach((s, i) => {
-    registrationOrder[s.id] = i;
+  soups.forEach((s, i) => {
+    registrationOrder[s.id as string] = i;
   });
 
-  const rcvResult = runRCV(event.ballots, soupIds, registrationOrder);
-  const awards = computeAwards(rcvResult, event.ballots, event.tastingNotes);
+  const rcvResult = runRCV(
+    ballots as { rankings: string[] }[],
+    soupIds,
+    registrationOrder
+  );
+  const awards = computeAwards(
+    rcvResult,
+    ballots as { rankings: string[] }[],
+    tastingNotes as { soupId: string; flavorTags: string[] }[]
+  );
 
-  // Build soup map for display
+  // Build soup map
   const soupMap: Record<string, { name: string; cookName: string; number: number | null; description: string }> = {};
-  for (const soup of event.soups) {
-    soupMap[soup.id] = {
-      name: soup.name,
-      cookName: soup.cookName,
-      number: soup.number,
-      description: soup.description,
+  for (const soup of soups) {
+    soupMap[soup.id as string] = {
+      name: soup.name as string,
+      cookName: soup.cookName as string,
+      number: (soup.number as number | null) || null,
+      description: soup.description as string,
     };
   }
 
-  // Fun stats
-  const totalVotes = event.ballots.length;
+  // Stats
+  const totalVotes = ballots.length;
   const avgRanked = totalVotes > 0
-    ? (event.ballots.reduce((sum, b) => sum + b.rankings.length, 0) / totalVotes).toFixed(1)
+    ? (ballots.reduce((sum, b) => sum + (b.rankings as string[]).length, 0) / totalVotes).toFixed(1)
     : "0";
 
-  // Most-ranked soup (appeared on the most ballots)
   const ballotAppearances: Record<string, number> = {};
-  for (const ballot of event.ballots) {
-    for (const soupId of ballot.rankings) {
+  for (const ballot of ballots) {
+    for (const soupId of ballot.rankings as string[]) {
       ballotAppearances[soupId] = (ballotAppearances[soupId] || 0) + 1;
     }
   }
   const mostRanked = Object.entries(ballotAppearances).sort(([, a], [, b]) => b - a)[0]?.[0] || null;
   const leastRanked = Object.entries(ballotAppearances).sort(([, a], [, b]) => a - b)[0]?.[0] || null;
 
-  // Timing stats
-  const timestamps = event.ballots.map((b) => new Date(b.submittedAt).getTime()).sort();
+  const timestamps = ballots
+    .map((b) => new Date(b.submittedAt as string).getTime())
+    .filter((t) => !isNaN(t))
+    .sort();
   const firstVote = timestamps[0] ? new Date(timestamps[0]).toLocaleTimeString() : null;
   const lastVote = timestamps[timestamps.length - 1]
     ? new Date(timestamps[timestamps.length - 1]).toLocaleTimeString()
@@ -72,7 +89,7 @@ export async function GET() {
       leastRanked,
       firstVote,
       lastVote,
-      totalSoups: event.soups.length,
+      totalSoups: soups.length,
     },
   });
 }

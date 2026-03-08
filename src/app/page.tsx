@@ -1,14 +1,21 @@
 import Link from "next/link";
-import { prisma } from "@/lib/prisma";
+import { getAll, Collections, where, orderBy, limit } from "@/lib/firestore";
 
 export const dynamic = "force-dynamic";
 
 async function getEvent() {
   try {
-    return await prisma.event.findFirst({
-      orderBy: { year: "desc" },
-      include: { _count: { select: { soups: true, guests: true } } },
-    });
+    const events = await getAll(Collections.events, orderBy("year", "desc"), limit(1));
+    const event = events[0] || null;
+    if (event) {
+      const soups = await getAll(Collections.soups, where("eventId", "==", event.id));
+      const guests = await getAll(Collections.guests, where("eventId", "==", event.id));
+      (event as Record<string, unknown>)._count = {
+        soups: soups.length,
+        guests: guests.length,
+      };
+    }
+    return event;
   } catch {
     return null;
   }
@@ -62,13 +69,14 @@ function CountdownClient({ targetDate }: { targetDate: string }) {
 
 export default async function Home() {
   const event = await getEvent();
+  const _count = (event as Record<string, unknown>)?._count as { soups: number; guests: number } | undefined;
 
   return (
     <div className="min-h-screen bg-stone-900 text-stone-100">
       {/* Hero */}
       <div className="flex min-h-[80vh] flex-col items-center justify-center px-4 text-center">
         <p className="mb-4 text-sm font-medium uppercase tracking-widest text-amber-400">
-          Year {event?.year ? event.year - 2023 : 3} of the Tradition
+          Year {event?.year ? (event.year as number) - 2023 : 3} of the Tradition
         </p>
         <h1 className="mb-4 text-5xl font-bold tracking-tight sm:text-7xl">
           The Great<br />
@@ -78,17 +86,17 @@ export default async function Home() {
         {event ? (
           <>
             <p className="mb-2 text-lg text-stone-300">
-              {new Date(event.date).toLocaleDateString("en-US", {
+              {new Date(event.date as string).toLocaleDateString("en-US", {
                 weekday: "long",
                 year: "numeric",
                 month: "long",
                 day: "numeric",
               })}
             </p>
-            <p className="mb-8 text-stone-400">{event.location}</p>
+            <p className="mb-8 text-stone-400">{event.location as string}</p>
 
             <div id="countdown" className="mb-10">
-              <Countdown date={event.date.toISOString()} />
+              <Countdown date={event.date as string} />
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row">
@@ -124,7 +132,7 @@ export default async function Home() {
             <p className="mb-2 text-3xl">🍲</p>
             <h3 className="mb-1 font-semibold text-amber-400">Taste</h3>
             <p className="text-sm text-stone-400">
-              {event?._count.soups || "25+"} soups from talented cooks. Browse by table, vibe, or go surprise mode.
+              {_count?.soups || "25+"} soups from talented cooks. Browse by table, vibe, or go surprise mode.
             </p>
           </div>
           <div className="text-center">

@@ -7,11 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push",
-    "db:migrate": "prisma migrate dev",
-    "db:studio": "prisma studio"
+    "lint": "next lint"
   },
   "repository": {
     "type": "git",
@@ -21,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "^6.19.2",
+    "firebase": "^12.10.0",
     "next": "^16.1.6",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
@@ -34,7 +30,6 @@
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.1.6",
     "postcss": "^8.5.8",
-    "prisma": "^6.19.2",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3"
   }

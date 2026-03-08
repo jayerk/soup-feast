@@ -1,25 +1,44 @@
-import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import { getAll, Collections, where, orderBy, limit } from "@/lib/firestore";
 
 export const dynamic = "force-dynamic";
 
-async function getActiveEvent() {
-  const event = await prisma.event.findFirst({
-    orderBy: { year: "desc" },
-    include: {
-      _count: {
-        select: {
-          soups: true,
-          guests: true,
-          ballots: true,
-        },
-      },
-      guests: {
-        select: { rsvpStatus: true },
-      },
+interface EventData {
+  id: string;
+  name: string;
+  date: string;
+  location: string;
+  votingOpen: boolean;
+  resultsRevealed: boolean;
+  maxSoups: number;
+  _count: { soups: number; guests: number; ballots: number };
+  guests: Record<string, unknown>[];
+}
+
+async function getActiveEvent(): Promise<EventData | null> {
+  const events = await getAll(Collections.events, orderBy("year", "desc"), limit(1));
+  const event = events[0] || null;
+  if (!event) return null;
+
+  const soups = await getAll(Collections.soups, where("eventId", "==", event.id));
+  const guests = await getAll(Collections.guests, where("eventId", "==", event.id));
+  const ballots = await getAll(Collections.ballots, where("eventId", "==", event.id));
+
+  return {
+    id: event.id as string,
+    name: event.name as string,
+    date: event.date as string,
+    location: event.location as string,
+    votingOpen: event.votingOpen as boolean,
+    resultsRevealed: event.resultsRevealed as boolean,
+    maxSoups: (event.maxSoups as number) || 25,
+    _count: {
+      soups: soups.length,
+      guests: guests.length,
+      ballots: ballots.length,
     },
-  });
-  return event;
+    guests,
+  };
 }
 
 export default async function AdminDashboard() {
@@ -40,7 +59,7 @@ export default async function AdminDashboard() {
     );
   }
 
-  const confirmedGuests = event.guests.filter((g) => g.rsvpStatus === "CONFIRMED").length;
+  const confirmedGuests = event.guests.filter((g: Record<string, unknown>) => g.rsvpStatus === "CONFIRMED").length;
   const totalGuests = event._count.guests;
 
   const stats = [
