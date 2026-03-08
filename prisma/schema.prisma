@@ -1,0 +1,229 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id               String    @id @default(cuid())
+  name             String
+  year             Int
+  date             DateTime
+  location         String
+  capacity         Int       @default(100)
+  votingOpen       Boolean   @default(false)
+  resultsRevealed  Boolean   @default(false)
+  maxSoups         Int       @default(25)
+  rankingDepth     Int       @default(5)
+  tastingNotesEnabled Boolean @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  soups        Soup[]
+  guests       Guest[]
+  tastingLogs  TastingLog[]
+  ballots      Ballot[]
+  tastingNotes TastingNote[]
+  campaigns    Campaign[]
+  budgetItems  BudgetItem[]
+
+  @@map("events")
+}
+
+model Soup {
+  id            String     @id @default(cuid())
+  eventId       String
+  number        Int?       // crockpot/table number
+  name          String
+  cookName      String
+  cookEmail     String?
+  description   String
+  dietaryTags   String[]   // vegan, vegetarian, gf, df, nuts, spicy
+  surpriseEntry Boolean    @default(false)
+  status        SoupStatus @default(CONFIRMED)
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  event        Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  tastingLogs  TastingLog[]
+  tastingNotes TastingNote[]
+  cook         Guest?        @relation("CookSoup")
+
+  @@map("soups")
+}
+
+enum SoupStatus {
+  CONFIRMED
+  TENTATIVE
+  WITHDRAWN
+}
+
+model Guest {
+  id             String       @id @default(cuid())
+  eventId        String
+  name           String
+  email          String?
+  phone          String?
+  inviteChannel  InviteChannel @default(EMAIL)
+  rsvpStatus     RsvpStatus   @default(NO_RESPONSE)
+  uniqueToken    String       @unique @default(cuid())
+  isCook         Boolean      @default(false)
+  soupId         String?      @unique
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  event        Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  soup         Soup?         @relation("CookSoup", fields: [soupId], references: [id])
+  tastingLogs  TastingLog[]
+  ballots      Ballot[]
+  tastingNotes TastingNote[]
+
+  @@map("guests")
+}
+
+enum InviteChannel {
+  EMAIL
+  SMS
+  BOTH
+  MAIL
+}
+
+enum RsvpStatus {
+  INVITED
+  CONFIRMED
+  DECLINED
+  NO_RESPONSE
+}
+
+model TastingLog {
+  id         String      @id @default(cuid())
+  guestId    String
+  soupId     String
+  eventId    String
+  triedAt    DateTime    @default(now())
+  browseMode BrowseMode?
+
+  guest Guest @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  soup  Soup  @relation(fields: [soupId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([guestId, soupId])
+  @@map("tasting_logs")
+}
+
+enum BrowseMode {
+  BY_TABLE
+  BY_VIBE
+  SURPRISE_ME
+}
+
+model Ballot {
+  id              String   @id @default(cuid())
+  guestId         String
+  eventId         String
+  rankings        String[] // ordered array of soup IDs
+  soupTriedCount  Int
+  submittedAt     DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  guest Guest @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([guestId, eventId])
+  @@map("ballots")
+}
+
+model TastingNote {
+  id         String   @id @default(cuid())
+  guestId    String
+  soupId     String
+  eventId    String
+  rating     Int      // 1-5 ladles
+  flavorTags String[] // savory, sweet, spicy, creamy, hearty, light, umami, smoky
+  noteText   String?  @db.VarChar(140)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  guest Guest @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  soup  Soup  @relation(fields: [soupId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([guestId, soupId])
+  @@map("tasting_notes")
+}
+
+model Campaign {
+  id           String         @id @default(cuid())
+  eventId      String
+  name         String
+  sendDate     DateTime?
+  channel      CampaignChannel @default(BOTH)
+  templateBody String
+  status       CampaignStatus @default(DRAFT)
+  sentCount    Int            @default(0)
+  openedCount  Int            @default(0)
+  clickedCount Int            @default(0)
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@map("campaigns")
+}
+
+enum CampaignChannel {
+  EMAIL
+  SMS
+  BOTH
+}
+
+enum CampaignStatus {
+  DRAFT
+  SCHEDULED
+  SENT
+}
+
+model BudgetItem {
+  id            String  @id @default(cuid())
+  eventId       String
+  itemName      String
+  category      BudgetCategory @default(OTHER)
+  estimatedCost Float   @default(0)
+  actualCost    Float?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@map("budget_items")
+}
+
+enum BudgetCategory {
+  SUPPLIES
+  PRINTING
+  FOOD
+  VENUE
+  OTHER
+}
+
+model ArchiveEvent {
+  id           String   @id @default(cuid())
+  year         Int      @unique
+  date         DateTime?
+  location     String?
+  championSoup String?
+  championCook String?
+  runnerUpSoup String?
+  runnerUpCook String?
+  totalSoups   Int?
+  totalGuests  Int?
+  soupList     String[] // soup names
+  photos       String[] // URLs
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("archive_events")
+}

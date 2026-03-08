@@ -1,0 +1,704 @@
+{
+  "soups": [
+    {
+      "name": "Grandma's Chicken Noodle",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "The original sick-day prescription that no pharmacy can compete with."
+    },
+    {
+      "name": "Tomato Basil Bisque",
+      "category": "classic_comfort",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "A velvety red hug that pairs suspiciously well with a grilled cheese."
+    },
+    {
+      "name": "Beef and Barley",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "Hearty enough to make a lumberjack weep with joy."
+    },
+    {
+      "name": "Loaded Baked Potato Soup",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "All the glory of a baked potato, but you eat it with a spoon like a rebel."
+    },
+    {
+      "name": "Split Pea with Ham",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "Looks questionable, tastes like a warm blanket on a cold Tuesday."
+    },
+    {
+      "name": "Clam Chowder (New England)",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Creamy, clammy, and fiercely loyal to the bread bowl it arrived in."
+    },
+    {
+      "name": "Broccoli Cheddar",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "The soup that tricked millions of children into eating a vegetable."
+    },
+    {
+      "name": "Cream of Mushroom",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Earthy, silky, and finally free from the casserole it was trapped in."
+    },
+    {
+      "name": "Minestrone",
+      "category": "classic_comfort",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "An Italian garden fell into a pot and nobody complained."
+    },
+    {
+      "name": "French Onion",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "showstopper",
+      "description": "Caramelized patience topped with a cheese blanket that defies gravity."
+    },
+    {
+      "name": "Chicken and Dumplings",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Fluffy clouds floating in a savory sky of grandmotherly love."
+    },
+    {
+      "name": "Vegetable Beef",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "The fridge-cleanout soup that somehow always tastes intentional."
+    },
+    {
+      "name": "Butternut Squash",
+      "category": "classic_comfort",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Autumn in a bowl, wearing a little nutmeg hat."
+    },
+    {
+      "name": "Potato Leek",
+      "category": "classic_comfort",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Humble ingredients throwing a surprisingly elegant dinner party."
+    },
+    {
+      "name": "Ham and Bean",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "The leftovers-from-Easter soup that outshines the original ham."
+    },
+    {
+      "name": "Italian Wedding Soup",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Tiny meatballs and greens in a broth so good it deserves a toast."
+    },
+    {
+      "name": "Corn Chowder",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Summer corn's cozy retirement plan for when the weather turns cold."
+    },
+    {
+      "name": "Chicken Tortilla",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Crunchy strips on top because soup deserves a little chaos."
+    },
+    {
+      "name": "New England Fish Chowder",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Clam chowder's lesser-known sibling who honestly might be more talented."
+    },
+    {
+      "name": "Creamy Wild Rice",
+      "category": "classic_comfort",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "Minnesota's greatest export, and yes, that includes Prince."
+    },
+    {
+      "name": "Pho Bo",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "showstopper",
+      "description": "A Vietnamese cathedral of star anise and patience, built one bone at a time."
+    },
+    {
+      "name": "Tom Kha Gai",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Coconut milk and galangal walk into a Thai bar and never leave."
+    },
+    {
+      "name": "Ramen (Tonkotsu)",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "showstopper",
+      "description": "Eighteen hours of simmering bones for fifteen minutes of slurping bliss."
+    },
+    {
+      "name": "Harira",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Morocco's Ramadan sunset soup that makes the wait absolutely worth it."
+    },
+    {
+      "name": "Laksa",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "A spicy Malaysian coconut tsunami that floods your bowl with happiness."
+    },
+    {
+      "name": "Borscht",
+      "category": "around_the_world",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Beets so vibrant they'll stain your soul a lovely shade of magenta."
+    },
+    {
+      "name": "Avgolemono",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Greece's lemony egg-drop masterpiece that feels like liquid sunshine."
+    },
+    {
+      "name": "Caldo Verde",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Portugal's kale and sausage elixir that fuels entire fishing villages."
+    },
+    {
+      "name": "Soto Ayam",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Indonesia's turmeric-golden chicken soup with more toppings than a pizza."
+    },
+    {
+      "name": "Wonton Soup",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "showstopper",
+      "description": "Tiny pork purses swimming in a broth that whispers ancient secrets."
+    },
+    {
+      "name": "Canja de Galinha",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Brazil's answer to chicken soup, served with rice and zero regrets."
+    },
+    {
+      "name": "Scotch Broth",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "A hearty Scottish lamb stew that could warm you through a Highland winter."
+    },
+    {
+      "name": "Mulligatawny",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Anglo-Indian fusion from the colonial era that aged better than the empire did."
+    },
+    {
+      "name": "Pozole Rojo",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "showstopper",
+      "description": "Mexico's hominy celebration soup that turns every weekend into a fiesta."
+    },
+    {
+      "name": "Miso Soup",
+      "category": "around_the_world",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "Japan's minimalist masterpiece that proves less is absolutely more."
+    },
+    {
+      "name": "Gazpacho",
+      "category": "around_the_world",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Spain's chilled tomato rebellion against the tyranny of hot soup."
+    },
+    {
+      "name": "Sopa de Lima",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "The Yucatan's citrusy chicken soup that makes you rethink lime's purpose in life."
+    },
+    {
+      "name": "Khao Soi",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Northern Thailand's curried noodle soup with crispy noodle confetti on top."
+    },
+    {
+      "name": "Solyanka",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Russia's sour, spicy, and smoky soup that uses every meat in the deli."
+    },
+    {
+      "name": "Asopao de Pollo",
+      "category": "around_the_world",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Puerto Rico's soupy rice dish that blurs the line between soup and stew gloriously."
+    },
+    {
+      "name": "Spicy Black Bean",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "Dark, smoky, and topped with avocado like nature's own sour cream."
+    },
+    {
+      "name": "Roasted Red Pepper and Tomato",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Fire-kissed peppers and tomatoes blended into liquid sunset."
+    },
+    {
+      "name": "Coconut Curry Lentil",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "Lentils living their best life in a coconut-curry jacuzzi."
+    },
+    {
+      "name": "Thai Peanut Sweet Potato",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Sweet potato and peanut butter: the power couple nobody saw coming."
+    },
+    {
+      "name": "Moroccan Chickpea Stew",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Chickpeas spiced so well they forgot they weren't the main character."
+    },
+    {
+      "name": "Carrot Ginger",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Bright orange and zingy, like a soup that's had three espressos."
+    },
+    {
+      "name": "Smoky Tortilla Soup (Vegan)",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "All the crunch and spice with none of the poultry politics."
+    },
+    {
+      "name": "Red Lentil Dal",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "India's ultimate comfort food that costs less than your morning coffee."
+    },
+    {
+      "name": "Roasted Cauliflower Soup",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Cauliflower's glow-up from boring side dish to creamy soup royalty."
+    },
+    {
+      "name": "White Bean and Kale",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "Nutritious, delicious, and smug enough to post on Instagram."
+    },
+    {
+      "name": "Vegan Pho",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "showstopper",
+      "description": "Charred vegetables and spices proving that bones are optional for greatness."
+    },
+    {
+      "name": "African Peanut Soup",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "West Africa's creamy, spicy gift to the world, one gourd at a time."
+    },
+    {
+      "name": "Cucumber Dill Gazpacho",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "A cold green spa day in a bowl, no appointment necessary."
+    },
+    {
+      "name": "Mushroom and Wild Rice",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Woodsy, nutty, and complex enough to have its own personality test result."
+    },
+    {
+      "name": "Tuscan White Bean",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "Sun-dried tomatoes and rosemary doing la dolce vita in bean form."
+    },
+    {
+      "name": "Curried Pumpkin Soup",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Pumpkin spice latte's sophisticated older sibling who studied abroad."
+    },
+    {
+      "name": "Spicy Kimchi Noodle Soup",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Fermented fury in a bowl that clears both sinuses and existential dread."
+    },
+    {
+      "name": "Creamy Spinach and Artichoke",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "The beloved dip finally realized its true calling was soup all along."
+    },
+    {
+      "name": "Jamaican Red Pea Soup",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Kidney beans, coconut, and Scotch bonnets throwing a Caribbean block party."
+    },
+    {
+      "name": "Roasted Beet and Apple",
+      "category": "vegan_plant_based",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Magenta madness with a tart twist that photographs better than you do."
+    },
+    {
+      "name": "Peanut Butter and Jelly Soup",
+      "category": "weird_wonderful",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Your childhood lunchbox had a fever dream and honestly it slaps."
+    },
+    {
+      "name": "Cheeseburger Soup",
+      "category": "weird_wonderful",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Everything you love about a burger, deconstructed into existential liquid form."
+    },
+    {
+      "name": "Beer Cheese Soup",
+      "category": "weird_wonderful",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Two bar favorites in a bowl, and somehow it's acceptable before noon."
+    },
+    {
+      "name": "Watermelon Gazpacho",
+      "category": "weird_wonderful",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "Summer's juiciest fruit finally passed its soup audition."
+    },
+    {
+      "name": "Chocolate Chili Soup",
+      "category": "weird_wonderful",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Mole's moody cousin who shops exclusively at the farmers market."
+    },
+    {
+      "name": "Pickle Soup",
+      "category": "weird_wonderful",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Poland's dill-icious secret that pickle fanatics have been gatekeeping."
+    },
+    {
+      "name": "Bone Marrow Ramen with Uni",
+      "category": "weird_wonderful",
+      "vegan": false,
+      "effort": "showstopper",
+      "description": "A luxury bowl so indulgent it should come with a velvet rope."
+    },
+    {
+      "name": "Avocado Lime Soup",
+      "category": "weird_wonderful",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "Guacamole got too ambitious and honestly we're here for it."
+    },
+    {
+      "name": "Cereal Milk Dessert Soup",
+      "category": "weird_wonderful",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "The sugary milk at the bottom of your cereal bowl, elevated to fine dining."
+    },
+    {
+      "name": "Smoked Salmon Chowder",
+      "category": "weird_wonderful",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Brunch and dinner had a baby and it lives in a bread bowl."
+    },
+    {
+      "name": "Charred Scallion and Miso",
+      "category": "weird_wonderful",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Burnt on purpose and proud of it, like a culinary punk rocker."
+    },
+    {
+      "name": "Curry Popcorn Soup",
+      "category": "weird_wonderful",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Popcorn as a soup garnish is the plot twist your dinner needed."
+    },
+    {
+      "name": "Blue Cheese and Pear",
+      "category": "weird_wonderful",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "A cheese board that melted into a pot and found enlightenment."
+    },
+    {
+      "name": "Pumpkin Pie Soup",
+      "category": "weird_wonderful",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Thanksgiving dessert went through an identity crisis and came out as an appetizer."
+    },
+    {
+      "name": "Mango Habanero Bisque",
+      "category": "weird_wonderful",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Tropical sweetness and volcanic heat locked in a delicious custody battle."
+    },
+    {
+      "name": "Lobster and Truffle Bisque",
+      "category": "weird_wonderful",
+      "vegan": false,
+      "effort": "showstopper",
+      "description": "So fancy your pinky finger extends itself automatically."
+    },
+    {
+      "name": "Everything Bagel Soup",
+      "category": "weird_wonderful",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Cream cheese broth with an everything-spice crouton that just makes sense."
+    },
+    {
+      "name": "Sriracha Honeydew Gazpacho",
+      "category": "weird_wonderful",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "Sweet melon meets rooster sauce in the most unlikely summer romance."
+    },
+    {
+      "name": "Bacon Jam and Brie Soup",
+      "category": "weird_wonderful",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "A charcuterie board's origin story, told entirely in liquid form."
+    },
+    {
+      "name": "Durian Coconut Soup",
+      "category": "weird_wonderful",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Smells like a dare, tastes like custard heaven if you survive the approach."
+    },
+    {
+      "name": "Hearty Chili Con Carne",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "The Super Bowl MVP that never fumbles, no matter how you top it."
+    },
+    {
+      "name": "Creamy Tomato with Grilled Cheese Dippers",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "The iconic duo that has more chemistry than any rom-com couple."
+    },
+    {
+      "name": "Taco Soup",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "Taco Tuesday's liquid loophole for when you're too tired to fold tortillas."
+    },
+    {
+      "name": "Buffalo Chicken Soup",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Wing night in a bowl, ranch drizzle absolutely mandatory."
+    },
+    {
+      "name": "Mac and Cheese Soup",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Two comfort food titans merged into one unstoppable cheesy force."
+    },
+    {
+      "name": "Slow Cooker Tortellini",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "Frozen tortellini's glow-up story: from freezer to fame in six hours."
+    },
+    {
+      "name": "Chicken Pot Pie Soup",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "All the pot pie glory with puff pastry crackers and zero crust anxiety."
+    },
+    {
+      "name": "Zuppa Toscana",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "The Olive Garden copycat that your family likes more than the original."
+    },
+    {
+      "name": "Lasagna Soup",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "All the layers, none of the architectural engineering degree required."
+    },
+    {
+      "name": "Three Bean Vegetarian Chili",
+      "category": "crowd_pleaser",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "The chili cook-off dark horse that makes carnivores do a double take."
+    },
+    {
+      "name": "Sausage and Tortellini",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Italian sausage and cheese pillows in a broth that forgives all sins."
+    },
+    {
+      "name": "French Dip Soup",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "Roast beef au jus that finally cut out the middleman sandwich."
+    },
+    {
+      "name": "Philly Cheesesteak Soup",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Philadelphia's finest export, now in a form that won't drip on your shirt."
+    },
+    {
+      "name": "BBQ Pulled Pork Soup",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "Smokehouse vibes in a bowl, coleslaw garnish absolutely non-negotiable."
+    },
+    {
+      "name": "Pizza Soup",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Every pizza topping swimming in marinara because rules are made to be broken."
+    },
+    {
+      "name": "Spinach Artichoke Dip Soup",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "The appetizer that got promoted to main course and never looked back."
+    },
+    {
+      "name": "Vegan Coconut Ramen",
+      "category": "crowd_pleaser",
+      "vegan": true,
+      "effort": "some_love",
+      "description": "Plant-based broth so rich it fools even the most devoted carnivores."
+    },
+    {
+      "name": "Cajun Sausage and Rice",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "crockpot_and_forget",
+      "description": "Mardi Gras in a crockpot, beads and parade float not included."
+    },
+    {
+      "name": "Jalape\u00f1o Popper Soup",
+      "category": "crowd_pleaser",
+      "vegan": false,
+      "effort": "some_love",
+      "description": "Cream cheese, bacon, and just enough heat to keep things interesting."
+    },
+    {
+      "name": "Sweet Potato and Black Bean",
+      "category": "crowd_pleaser",
+      "vegan": true,
+      "effort": "crockpot_and_forget",
+      "description": "A colorful fiesta bowl that accidentally became everyone's weeknight go-to."
+    }
+  ]
+}
