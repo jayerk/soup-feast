@@ -54,20 +54,27 @@ export default function ResultsPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-stone-900">
-        <p className="text-stone-400">Loading results...</p>
+      <div className="mx-auto max-w-4xl px-6 py-20 text-center">
+        <p className="text-taupe italic" style={{ fontFamily: "var(--font-lora)" }}>Loading results...</p>
       </div>
     );
   }
 
   if (!data?.revealed || !data.rcvResult || !data.soupMap || !data.awards) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-stone-900 px-4 text-center">
-        <p className="mb-4 text-5xl">🏆</p>
-        <h1 className="mb-2 text-2xl font-bold text-white">Results Coming Soon</h1>
-        <p className="mb-6 text-stone-400">The admin hasn&rsquo;t revealed the results yet. Stay tuned!</p>
-        <Link href="/leaderboard" className="text-amber-400 hover:underline">
-          Check the leaderboard
+      <div className="mx-auto max-w-md px-6 py-20 text-center">
+        <p
+          className="text-4xl font-bold text-espresso mb-4"
+          style={{ fontFamily: "var(--font-playfair)" }}
+        >
+          Results Pending
+        </p>
+        <div className="w-12 h-px bg-harvest-gold mx-auto mb-6" />
+        <p className="text-taupe mb-8" style={{ fontFamily: "var(--font-lora)" }}>
+          The results haven&rsquo;t been revealed yet. Stay tuned.
+        </p>
+        <Link href="/leaderboard" className="btn-vintage">
+          Check the Leaderboard
         </Link>
       </div>
     );
@@ -83,154 +90,210 @@ export default function ResultsPage() {
   }
 
   const awardsList = [
-    { label: "Champion", id: awards.champion, emoji: "🏆" },
-    { label: "Runner-Up", id: awards.runnerUp, emoji: "🥈" },
-    { label: "Sleeper Hit", id: awards.sleeperHit, emoji: "🌟", subtitle: "Biggest mover from round 1 to final" },
-    { label: "Most Polarizing", id: awards.mostPolarizing, emoji: "🔥", subtitle: "Highest ranking variance" },
-    { label: "Crowd Comfort", id: awards.crowdComfort, emoji: "🫕", subtitle: 'Most "hearty" + "savory" tags' },
-    { label: "Boldest Bowl", id: awards.boldestBowl, emoji: "🌶️", subtitle: 'Most "spicy" + "smoky" + "umami" tags' },
+    { label: "Champion", id: awards.champion },
+    { label: "Runner-Up", id: awards.runnerUp },
+    { label: "Sleeper Hit", id: awards.sleeperHit, subtitle: "Biggest mover from round 1 to final" },
+    { label: "Most Polarizing", id: awards.mostPolarizing, subtitle: "Highest ranking variance" },
+    { label: "Crowd Comfort", id: awards.crowdComfort, subtitle: 'Most "hearty" + "savory" tags' },
+    { label: "Boldest Bowl", id: awards.boldestBowl, subtitle: 'Most "spicy" + "smoky" + "umami" tags' },
   ].filter((a) => a.id);
 
   return (
-    <div className="min-h-screen bg-stone-900 px-4 py-12 text-stone-100">
-      <div className="mx-auto max-w-4xl">
-        <div className="mb-12 text-center">
-          <p className="mb-2 text-sm uppercase tracking-widest text-amber-400">The Results Are In</p>
-          <h1 className="text-4xl font-bold sm:text-5xl">
-            {soupName(rcvResult.winner)} Wins!
-          </h1>
-          <p className="mt-2 text-lg text-stone-400">by {cookName(rcvResult.winner)}</p>
-        </div>
+    <div className="mx-auto max-w-4xl px-6 py-12">
+      {/* Hero */}
+      <div className="mb-16 text-center">
+        <p className="text-xs tracking-[0.3em] uppercase text-taupe mb-6">The Results Are In</p>
+        <h2
+          className="text-5xl sm:text-6xl font-bold text-espresso leading-tight"
+          style={{ fontFamily: "var(--font-playfair)" }}
+        >
+          {soupName(rcvResult.winner)} Wins.
+        </h2>
+        <p className="mt-3 text-lg text-taupe italic" style={{ fontFamily: "var(--font-lora)" }}>
+          by {cookName(rcvResult.winner)}
+        </p>
+        <div className="w-16 h-px bg-harvest-gold mx-auto mt-8" />
+      </div>
 
-        {/* RCV Rounds Visualization */}
-        <div className="mb-12">
-          <h2 className="mb-6 text-2xl font-bold text-amber-400">How the Votes Flowed</h2>
-          <div className="space-y-4">
-            {rcvResult.rounds.map((round, i) => (
-              <div key={i} className="rounded-xl bg-stone-800/50 p-6">
-                <h3 className="mb-3 text-sm font-medium text-stone-400">Round {i + 1}</h3>
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-                  {Object.entries(round.counts)
-                    .sort(([, a], [, b]) => b - a)
-                    .map(([soupId, count]) => (
-                      <div
-                        key={soupId}
-                        className={`rounded-lg p-3 ${
-                          soupId === round.eliminated
-                            ? "bg-red-900/30 line-through opacity-60"
-                            : soupId === rcvResult.winner && i === rcvResult.rounds.length - 1
-                              ? "bg-amber-900/40 ring-1 ring-amber-500"
-                              : "bg-stone-700/50"
-                        }`}
+      {/* RCV Rounds */}
+      <section className="mb-16">
+        <h3
+          className="text-2xl font-bold text-espresso mb-2"
+          style={{ fontFamily: "var(--font-playfair)" }}
+        >
+          How the Votes Flowed
+        </h3>
+        <div className="w-8 h-px bg-sand mb-8" />
+        <div className="space-y-6">
+          {rcvResult.rounds.map((round, i) => (
+            <div key={i} className="card-editorial">
+              <h4 className="text-xs tracking-[0.15em] uppercase text-taupe mb-4">Round {i + 1}</h4>
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+                {Object.entries(round.counts)
+                  .sort(([, a], [, b]) => b - a)
+                  .map(([soupId, count]) => (
+                    <div
+                      key={soupId}
+                      className={`p-3 border ${
+                        soupId === round.eliminated
+                          ? "border-wine/30 bg-wine/5 line-through opacity-60"
+                          : soupId === rcvResult.winner && i === rcvResult.rounds.length - 1
+                            ? "border-harvest-gold bg-parchment"
+                            : "border-sand bg-cream"
+                      }`}
+                    >
+                      <p className="truncate text-sm font-medium text-espresso">{soupName(soupId)}</p>
+                      <p
+                        className="text-lg font-bold text-wine"
+                        style={{ fontFamily: "var(--font-playfair)" }}
                       >
-                        <p className="truncate text-sm font-medium">{soupName(soupId)}</p>
-                        <p className="text-lg font-bold text-amber-400">{count}</p>
-                      </div>
-                    ))}
-                </div>
-                {round.eliminated && (
-                  <p className="mt-3 text-sm text-red-400">
-                    Eliminated: {soupName(round.eliminated)}
-                    {Object.keys(round.redistributed).length > 0 && (
-                      <span className="text-stone-500">
-                        {" — votes went to "}
-                        {Object.entries(round.redistributed)
-                          .map(([id, n]) => `${soupName(id)} (+${n})`)
-                          .join(", ")}
-                      </span>
-                    )}
-                  </p>
-                )}
+                        {count}
+                      </p>
+                    </div>
+                  ))}
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Final Rankings */}
-        <div className="mb-12">
-          <h2 className="mb-6 text-2xl font-bold text-amber-400">Final Rankings</h2>
-          <div className="space-y-2">
-            {rcvResult.finalRankings.map((soupId, i) => (
-              <div
-                key={soupId}
-                className={`flex items-center gap-4 rounded-lg px-4 py-3 ${
-                  i === 0 ? "bg-amber-900/30 ring-1 ring-amber-500" : "bg-stone-800/50"
-                }`}
-              >
-                <span className="w-8 text-right text-lg font-bold text-amber-400">#{i + 1}</span>
-                <div className="flex-1">
-                  <p className="font-semibold">{soupName(soupId)}</p>
-                  <p className="text-sm text-stone-400">by {cookName(soupId)}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Awards */}
-        <div className="mb-12">
-          <h2 className="mb-6 text-2xl font-bold text-amber-400">Awards</h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {awardsList.map((award) => (
-              <div key={award.label} className="rounded-xl bg-stone-800/50 p-6 text-center">
-                <p className="mb-2 text-3xl">{award.emoji}</p>
-                <p className="text-xs font-medium uppercase tracking-wider text-amber-400">
-                  {award.label}
+              {round.eliminated && (
+                <p className="mt-3 text-sm text-taupe" style={{ fontFamily: "var(--font-lora)" }}>
+                  <span className="text-wine">Eliminated:</span> {soupName(round.eliminated)}
+                  {Object.keys(round.redistributed).length > 0 && (
+                    <span className="text-mushroom">
+                      {" — votes redistributed to "}
+                      {Object.entries(round.redistributed)
+                        .map(([id, n]) => `${soupName(id)} (+${n})`)
+                        .join(", ")}
+                    </span>
+                  )}
                 </p>
-                <p className="mt-1 text-lg font-bold">{soupName(award.id!)}</p>
-                <p className="text-sm text-stone-400">by {cookName(award.id!)}</p>
-                {award.subtitle && (
-                  <p className="mt-1 text-xs text-stone-500">{award.subtitle}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Fun Stats */}
-        {stats && (
-          <div className="mb-12">
-            <h2 className="mb-6 text-2xl font-bold text-amber-400">By the Numbers</h2>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-              <div className="rounded-xl bg-stone-800/50 p-4 text-center">
-                <p className="text-3xl font-bold text-white">{stats.totalVotes}</p>
-                <p className="text-xs text-stone-400">Ballots Cast</p>
-              </div>
-              <div className="rounded-xl bg-stone-800/50 p-4 text-center">
-                <p className="text-3xl font-bold text-white">{stats.totalSoups}</p>
-                <p className="text-xs text-stone-400">Soups Entered</p>
-              </div>
-              <div className="rounded-xl bg-stone-800/50 p-4 text-center">
-                <p className="text-3xl font-bold text-white">{stats.avgRanked}</p>
-                <p className="text-xs text-stone-400">Avg Soups Ranked</p>
-              </div>
-              {stats.mostRanked && (
-                <div className="rounded-xl bg-stone-800/50 p-4 text-center">
-                  <p className="text-lg font-bold text-white">{soupName(stats.mostRanked)}</p>
-                  <p className="text-xs text-stone-400">Most Ranked Soup</p>
-                </div>
-              )}
-              {stats.leastRanked && (
-                <div className="rounded-xl bg-stone-800/50 p-4 text-center">
-                  <p className="text-lg font-bold text-white">{soupName(stats.leastRanked)}</p>
-                  <p className="text-xs text-stone-400">Hidden Gem</p>
-                </div>
-              )}
-              {stats.firstVote && (
-                <div className="rounded-xl bg-stone-800/50 p-4 text-center">
-                  <p className="text-lg font-bold text-white">{stats.firstVote}</p>
-                  <p className="text-xs text-stone-400">First Vote</p>
-                </div>
               )}
             </div>
-          </div>
-        )}
-
-        <div className="text-center">
-          <Link href="/archive" className="text-amber-400 hover:underline">
-            View Past Years
-          </Link>
+          ))}
         </div>
+      </section>
+
+      {/* Final Rankings */}
+      <section className="mb-16">
+        <h3
+          className="text-2xl font-bold text-espresso mb-2"
+          style={{ fontFamily: "var(--font-playfair)" }}
+        >
+          Final Rankings
+        </h3>
+        <div className="w-8 h-px bg-sand mb-8" />
+        <div className="space-y-2">
+          {rcvResult.finalRankings.map((soupId, i) => (
+            <div
+              key={soupId}
+              className={`flex items-center gap-4 px-5 py-3 border ${
+                i === 0 ? "border-harvest-gold bg-parchment" : "border-sand bg-white"
+              }`}
+            >
+              <span
+                className="w-8 text-right text-lg font-bold text-wine"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                {i + 1}
+              </span>
+              <div className="flex-1">
+                <p className="font-semibold text-espresso">{soupName(soupId)}</p>
+                <p className="text-sm text-taupe italic">by {cookName(soupId)}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Awards */}
+      <section className="mb-16">
+        <h3
+          className="text-2xl font-bold text-espresso mb-2"
+          style={{ fontFamily: "var(--font-playfair)" }}
+        >
+          Awards
+        </h3>
+        <div className="w-8 h-px bg-sand mb-8" />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {awardsList.map((award) => (
+            <div key={award.label} className="card-editorial text-center">
+              <p className="text-xs tracking-[0.2em] uppercase text-harvest-gold mb-2">
+                {award.label}
+              </p>
+              <p
+                className="text-lg font-bold text-espresso"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                {soupName(award.id!)}
+              </p>
+              <p className="text-sm text-taupe italic">by {cookName(award.id!)}</p>
+              {award.subtitle && (
+                <p className="mt-2 text-xs text-mushroom">{award.subtitle}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Stats */}
+      {stats && (
+        <section className="mb-16">
+          <h3
+            className="text-2xl font-bold text-espresso mb-2"
+            style={{ fontFamily: "var(--font-playfair)" }}
+          >
+            By the Numbers
+          </h3>
+          <div className="w-8 h-px bg-sand mb-8" />
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+            <div className="card-editorial text-center">
+              <p
+                className="text-3xl font-bold text-espresso"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                {stats.totalVotes}
+              </p>
+              <p className="text-xs tracking-[0.15em] uppercase text-taupe mt-1">Ballots Cast</p>
+            </div>
+            <div className="card-editorial text-center">
+              <p
+                className="text-3xl font-bold text-espresso"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                {stats.totalSoups}
+              </p>
+              <p className="text-xs tracking-[0.15em] uppercase text-taupe mt-1">Soups Entered</p>
+            </div>
+            <div className="card-editorial text-center">
+              <p
+                className="text-3xl font-bold text-espresso"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                {stats.avgRanked}
+              </p>
+              <p className="text-xs tracking-[0.15em] uppercase text-taupe mt-1">Avg Soups Ranked</p>
+            </div>
+            {stats.mostRanked && (
+              <div className="card-editorial text-center">
+                <p className="text-lg font-bold text-espresso" style={{ fontFamily: "var(--font-playfair)" }}>
+                  {soupName(stats.mostRanked)}
+                </p>
+                <p className="text-xs tracking-[0.15em] uppercase text-taupe mt-1">Most Ranked</p>
+              </div>
+            )}
+            {stats.leastRanked && (
+              <div className="card-editorial text-center">
+                <p className="text-lg font-bold text-espresso" style={{ fontFamily: "var(--font-playfair)" }}>
+                  {soupName(stats.leastRanked)}
+                </p>
+                <p className="text-xs tracking-[0.15em] uppercase text-taupe mt-1">Hidden Gem</p>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      <div className="text-center">
+        <Link href="/archive" className="btn-vintage">
+          View Past Years
+        </Link>
       </div>
     </div>
   );

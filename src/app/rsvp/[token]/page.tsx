@@ -34,19 +34,17 @@ export default function PersonalRsvpPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-stone-900">
-        <p className="text-stone-400">Loading...</p>
+      <div className="mx-auto max-w-md px-6 py-20 text-center">
+        <p className="text-taupe italic" style={{ fontFamily: "var(--font-lora)" }}>Loading...</p>
       </div>
     );
   }
 
   if (!guest) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-stone-900 px-4 text-center">
-        <div>
-          <p className="mb-4 text-stone-400">Invalid invite link.</p>
-          <Link href="/" className="text-amber-400 hover:underline">Go to homepage</Link>
-        </div>
+      <div className="mx-auto max-w-md px-6 py-20 text-center">
+        <p className="text-taupe mb-4" style={{ fontFamily: "var(--font-lora)" }}>Invalid invite link.</p>
+        <Link href="/" className="btn-vintage">Go to Homepage</Link>
       </div>
     );
   }
@@ -55,59 +53,75 @@ export default function PersonalRsvpPage() {
   const isDeclined = guest.rsvpStatus === "DECLINED";
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-stone-900 px-4">
-      <div className="w-full max-w-sm text-center">
-        <p className="mb-4 text-5xl">🍲</p>
-        <h1 className="mb-2 text-2xl font-bold text-white">
-          Hey {guest.name}!
-        </h1>
-        <p className="mb-8 text-stone-400">
-          You&rsquo;re invited to The Great Soup Feast.
-        </p>
+    <div className="mx-auto max-w-md px-6 py-20 text-center">
+      <p className="text-xs tracking-[0.3em] uppercase text-taupe mb-6">Personal Invitation</p>
+      <h2
+        className="text-4xl font-bold text-espresso mb-2"
+        style={{ fontFamily: "var(--font-playfair)" }}
+      >
+        Hello, {guest.name}.
+      </h2>
+      <p className="text-taupe mb-10" style={{ fontFamily: "var(--font-lora)" }}>
+        You&rsquo;re invited to The Great Soup Feast.
+      </p>
 
-        {isConfirmed ? (
-          <div>
-            <p className="mb-4 text-lg font-semibold text-green-400">You&rsquo;re confirmed!</p>
-            <button
-              onClick={() => handleRsvp("DECLINED")}
-              disabled={updating}
-              className="text-sm text-stone-500 hover:text-stone-300"
-            >
-              Changed your mind? Cancel RSVP
-            </button>
-          </div>
-        ) : isDeclined ? (
-          <div>
-            <p className="mb-4 text-stone-400">You declined this invite.</p>
-            <button
-              onClick={() => handleRsvp("CONFIRMED")}
-              disabled={updating}
-              className="rounded-lg bg-amber-500 px-6 py-3 font-semibold text-stone-900 hover:bg-amber-400"
-            >
-              Changed your mind? I&rsquo;m In!
-            </button>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-3">
-            <button
-              onClick={() => handleRsvp("CONFIRMED")}
-              disabled={updating}
-              className="rounded-lg bg-amber-500 px-6 py-3 font-semibold text-stone-900 hover:bg-amber-400 disabled:opacity-50"
-            >
-              I&rsquo;m In!
-            </button>
-            <button
-              onClick={() => handleRsvp("DECLINED")}
-              disabled={updating}
-              className="rounded-lg border border-stone-700 px-6 py-3 font-semibold text-stone-300 hover:bg-stone-800 disabled:opacity-50"
-            >
-              Can&rsquo;t Make It
-            </button>
-          </div>
-        )}
+      {isConfirmed ? (
+        <div>
+          <p
+            className="text-xl font-bold text-avocado mb-4"
+            style={{ fontFamily: "var(--font-playfair)" }}
+          >
+            You&rsquo;re confirmed.
+          </p>
+          <div className="w-8 h-px bg-sand mx-auto mb-4" />
+          <button
+            onClick={() => handleRsvp("DECLINED")}
+            disabled={updating}
+            className="text-sm text-taupe hover:text-espresso"
+            style={{ fontFamily: "var(--font-lora)" }}
+          >
+            Changed your mind? Cancel RSVP
+          </button>
+        </div>
+      ) : isDeclined ? (
+        <div>
+          <p className="text-taupe mb-6 italic" style={{ fontFamily: "var(--font-lora)" }}>
+            You declined this invite.
+          </p>
+          <button
+            onClick={() => handleRsvp("CONFIRMED")}
+            disabled={updating}
+            className="btn-vintage-filled"
+          >
+            Changed Your Mind? Count Me In
+          </button>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-3">
+          <button
+            onClick={() => handleRsvp("CONFIRMED")}
+            disabled={updating}
+            className="btn-vintage-filled disabled:opacity-50"
+          >
+            Count Me In
+          </button>
+          <button
+            onClick={() => handleRsvp("DECLINED")}
+            disabled={updating}
+            className="btn-vintage disabled:opacity-50"
+          >
+            Can&rsquo;t Make It
+          </button>
+        </div>
+      )}
 
-        <Link href="/" className="mt-8 inline-block text-sm text-stone-500 hover:text-stone-300">
-          View event details
+      <div className="mt-10">
+        <Link
+          href="/"
+          className="text-sm text-taupe hover:text-espresso"
+          style={{ fontFamily: "var(--font-lora)" }}
+        >
+          View event details &rarr;
         </Link>
       </div>
     </div>

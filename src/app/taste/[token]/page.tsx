@@ -46,7 +46,6 @@ export default function TastingPage() {
       const soupsData = await soupsRes.json();
       setSoups(soupsData.soups.filter((s: Soup) => s.number !== null || true));
 
-      // Load tried soups
       const logRes = await fetch(`/api/tasting-logs?token=${token}`);
       const logData = await logRes.json();
       setTriedSoups(new Set(logData.triedSoupIds || []));
@@ -85,30 +84,37 @@ export default function TastingPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-stone-50">
-        <p className="text-stone-400">Loading your tasting experience...</p>
+      <div className="mx-auto max-w-lg px-6 py-20 text-center">
+        <p className="text-taupe italic" style={{ fontFamily: "var(--font-lora)" }}>
+          Loading your tasting experience...
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 pb-24">
-      {/* Header */}
-      <div className="bg-stone-900 px-4 py-6 text-center text-white">
-        <h1 className="text-xl font-bold text-amber-400">Tasting Time</h1>
-        <p className="mt-1 text-sm text-stone-400">
+    <div className="pb-24">
+      {/* Progress header */}
+      <div className="border-b border-sand bg-parchment px-6 py-6 text-center">
+        <h2
+          className="text-2xl font-bold text-espresso"
+          style={{ fontFamily: "var(--font-playfair)" }}
+        >
+          Tasting Time
+        </h2>
+        <p className="mt-1 text-sm text-taupe" style={{ fontFamily: "var(--font-lora)" }}>
           You&rsquo;ve tried {triedSoups.size} of {soups.length} soups
         </p>
-        <div className="mt-2 h-2 overflow-hidden rounded-full bg-stone-700">
+        <div className="mt-3 mx-auto max-w-xs h-2 overflow-hidden bg-sand">
           <div
-            className="h-full rounded-full bg-amber-400 transition-all"
+            className="h-full bg-harvest-gold transition-all"
             style={{ width: `${(triedSoups.size / Math.max(soups.length, 1)) * 100}%` }}
           />
         </div>
       </div>
 
       {/* Browse mode selector */}
-      <div className="flex gap-2 overflow-x-auto px-4 py-4">
+      <div className="flex gap-2 overflow-x-auto px-6 py-4">
         {([
           { mode: "by_table" as BrowseMode, label: "By Table" },
           { mode: "by_vibe" as BrowseMode, label: "By Vibe" },
@@ -117,10 +123,10 @@ export default function TastingPage() {
           <button
             key={m.mode}
             onClick={() => { setBrowseMode(m.mode); setSurpriseIndex(0); }}
-            className={`shrink-0 rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+            className={`shrink-0 px-4 py-2 text-xs uppercase tracking-[0.15em] border transition-colors ${
               browseMode === m.mode
-                ? "bg-stone-900 text-white"
-                : "bg-white text-stone-600 ring-1 ring-stone-200"
+                ? "bg-espresso border-espresso text-cream"
+                : "border-sand text-taupe hover:border-espresso hover:text-espresso"
             }`}
           >
             {m.label}
@@ -130,15 +136,15 @@ export default function TastingPage() {
 
       {/* Vibe filter */}
       {browseMode === "by_vibe" && (
-        <div className="flex gap-2 overflow-x-auto px-4 pb-4">
+        <div className="flex gap-2 overflow-x-auto px-6 pb-4">
           {VIBE_FILTERS.map((vibe) => (
             <button
               key={vibe.id}
               onClick={() => setVibeFilter(vibeFilter === vibe.id ? null : vibe.id)}
-              className={`shrink-0 rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+              className={`shrink-0 px-3 py-1 text-xs uppercase tracking-wider border transition-colors ${
                 vibeFilter === vibe.id
-                  ? "bg-amber-500 text-stone-900"
-                  : "bg-stone-100 text-stone-600"
+                  ? "bg-harvest-gold border-harvest-gold text-cream"
+                  : "border-sand text-taupe hover:border-espresso"
               }`}
             >
               {vibe.label}
@@ -148,9 +154,8 @@ export default function TastingPage() {
       )}
 
       {/* Soup cards */}
-      <div className="px-4">
+      <div className="px-6">
         {browseMode === "surprise_me" ? (
-          // Single card at a time
           soups.length > 0 && (
             <div>
               {(() => {
@@ -169,7 +174,7 @@ export default function TastingPage() {
             </div>
           )
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {filteredSoups.map((soup) => (
               <SoupCard
                 key={soup.id}
@@ -183,18 +188,18 @@ export default function TastingPage() {
       </div>
 
       {/* Vote button */}
-      <div className="fixed bottom-0 left-0 right-0 border-t border-stone-200 bg-white p-4">
+      <div className="fixed bottom-0 left-0 right-0 border-t border-sand bg-cream p-4">
         {canVote ? (
           <Link
             href={`/taste/${token}/vote`}
-            className="block w-full rounded-lg bg-soup-red py-3 text-center font-semibold text-white hover:bg-red-800"
+            className="btn-vintage-filled block w-full text-center"
           >
             Ready to Vote ({triedSoups.size} soups tried)
           </Link>
         ) : (
           <button
             disabled
-            className="w-full rounded-lg bg-stone-200 py-3 text-center font-medium text-stone-400"
+            className="w-full py-3 text-center text-xs uppercase tracking-[0.15em] text-taupe border border-sand"
           >
             Try at least 5 soups before voting ({triedSoups.size}/5)
           </button>
@@ -216,28 +221,40 @@ function SoupCard({
   onSkip?: () => void;
 }) {
   return (
-    <div className={`rounded-xl border bg-white p-5 ${tried ? "border-green-200 bg-green-50/50" : "border-stone-200"}`}>
+    <div className={`card-editorial ${tried ? "border-avocado/30 bg-avocado/5" : ""}`}>
       <div className="flex items-start justify-between">
         <div className="flex items-start gap-3">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-lg font-bold text-amber-800">
+          <span
+            className="flex h-10 w-10 shrink-0 items-center justify-center border border-sand text-lg font-bold text-espresso"
+            style={{ fontFamily: "var(--font-playfair)" }}
+          >
             {soup.number || "?"}
           </span>
           <div>
-            <h3 className="text-lg font-semibold text-stone-900">
+            <h3
+              className="text-lg font-bold text-espresso"
+              style={{ fontFamily: "var(--font-playfair)" }}
+            >
               {soup.surpriseEntry ? "Mystery Soup" : soup.name}
             </h3>
-            <p className="text-sm text-stone-500">by {soup.cookName}</p>
+            <p className="text-sm text-taupe italic" style={{ fontFamily: "var(--font-lora)" }}>
+              by {soup.cookName}
+            </p>
           </div>
         </div>
-        {tried && <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">Tried</span>}
+        {tried && (
+          <span className="text-xs tracking-[0.15em] uppercase text-avocado">Tried</span>
+        )}
       </div>
 
-      <p className="mt-2 text-sm text-stone-600">{soup.description}</p>
+      <p className="mt-2 text-sm text-taupe leading-relaxed" style={{ fontFamily: "var(--font-lora)" }}>
+        {soup.description}
+      </p>
 
       {soup.dietaryTags.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-1">
           {soup.dietaryTags.map((tag) => (
-            <span key={tag} className="rounded-full bg-green-50 px-2 py-0.5 text-xs text-green-700">
+            <span key={tag} className="px-2 py-0.5 text-xs text-avocado bg-avocado/10 tracking-wider uppercase">
               {tag}
             </span>
           ))}
@@ -248,15 +265,15 @@ function SoupCard({
         {!tried && (
           <button
             onClick={onTried}
-            className="rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-stone-900 hover:bg-amber-400"
+            className="btn-vintage-filled !py-2 !px-4 !text-xs"
           >
-            Tried It!
+            Tried It
           </button>
         )}
         {onSkip && !tried && (
           <button
             onClick={onSkip}
-            className="rounded-lg bg-stone-100 px-4 py-2 text-sm font-medium text-stone-600 hover:bg-stone-200"
+            className="btn-vintage !py-2 !px-4 !text-xs"
           >
             Skip for Now
           </button>

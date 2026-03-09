@@ -69,64 +69,69 @@ export default function TastingNotesPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-stone-50">
-        <p className="text-stone-400">Loading...</p>
+      <div className="mx-auto max-w-lg px-6 py-20 text-center">
+        <p className="text-taupe italic" style={{ fontFamily: "var(--font-lora)" }}>Loading...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-stone-50 px-4 py-8">
-      <div className="mx-auto max-w-lg">
-        <Link href={`/taste/${token}`} className="mb-4 inline-block text-sm text-stone-500 hover:text-stone-700">
-          &larr; Back to tasting
-        </Link>
-        <h1 className="mb-2 text-2xl font-bold text-stone-900">Tasting Notes</h1>
-        <p className="mb-6 text-sm text-stone-500">
-          Rate the soups you tried. Notes are private — cooks get an anonymized summary.
-        </p>
+    <div className="mx-auto max-w-lg px-6 py-8">
+      <p className="text-xs tracking-[0.3em] uppercase text-taupe mb-4">Your Impressions</p>
+      <h2
+        className="text-3xl font-bold text-espresso mb-2"
+        style={{ fontFamily: "var(--font-playfair)" }}
+      >
+        Tasting Notes
+      </h2>
+      <p className="text-sm text-taupe mb-8" style={{ fontFamily: "var(--font-lora)" }}>
+        Rate the soups you tried. Notes are private &mdash; cooks get an anonymized summary.
+      </p>
 
-        <div className="space-y-3">
-          {soups.map((soup) => {
-            const note = notes[soup.id];
-            const isActive = activeSoup === soup.id;
+      <div className="space-y-3">
+        {soups.map((soup) => {
+          const note = notes[soup.id];
+          const isActive = activeSoup === soup.id;
 
-            return (
-              <div key={soup.id} className="rounded-xl border border-stone-200 bg-white">
-                <button
-                  onClick={() => setActiveSoup(isActive ? null : soup.id)}
-                  className="flex w-full items-center gap-3 px-4 py-3 text-left"
+          return (
+            <div key={soup.id} className="border border-sand bg-white">
+              <button
+                onClick={() => setActiveSoup(isActive ? null : soup.id)}
+                className="flex w-full items-center gap-3 px-4 py-3 text-left"
+              >
+                <span
+                  className="flex h-8 w-8 shrink-0 items-center justify-center border border-sand text-sm font-bold text-espresso"
+                  style={{ fontFamily: "var(--font-playfair)" }}
                 >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-100 text-sm font-bold text-amber-800">
-                    {soup.number || "?"}
+                  {soup.number || "?"}
+                </span>
+                <div className="flex-1">
+                  <p className="font-medium text-espresso">{soup.name}</p>
+                  <p className="text-xs text-taupe italic">by {soup.cookName}</p>
+                </div>
+                {note && (
+                  <span className="text-sm text-harvest-gold">
+                    {"★".repeat(note.rating)}
+                    {"☆".repeat(5 - note.rating)}
                   </span>
-                  <div className="flex-1">
-                    <p className="font-medium text-stone-900">{soup.name}</p>
-                    <p className="text-xs text-stone-500">by {soup.cookName}</p>
-                  </div>
-                  {note && (
-                    <span className="text-sm text-amber-500">
-                      {"🥣".repeat(note.rating)}
-                    </span>
-                  )}
-                </button>
-
-                {isActive && (
-                  <NoteEditor
-                    note={note}
-                    onSave={(rating, tags, text) => saveNote(soup.id, rating, tags, text)}
-                  />
                 )}
-              </div>
-            );
-          })}
-        </div>
+              </button>
 
-        <div className="mt-8 text-center">
-          <Link href="/leaderboard" className="text-sm text-soup-orange hover:underline">
-            See the leaderboard
-          </Link>
-        </div>
+              {isActive && (
+                <NoteEditor
+                  note={note}
+                  onSave={(rating, tags, text) => saveNote(soup.id, rating, tags, text)}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-10 text-center">
+        <Link href="/leaderboard" className="btn-vintage">
+          See the Leaderboard
+        </Link>
       </div>
     </div>
   );
@@ -153,18 +158,18 @@ function NoteEditor({
   }
 
   return (
-    <div className="border-t border-stone-100 px-4 py-4">
+    <div className="border-t border-sand px-4 py-4">
       {/* Rating */}
       <div className="mb-4">
-        <p className="mb-2 text-xs font-medium text-stone-500">Rating</p>
+        <p className="mb-2 text-xs tracking-[0.15em] uppercase text-taupe">Rating</p>
         <div className="flex gap-2">
           {[1, 2, 3, 4, 5].map((n) => (
             <button
               key={n}
               onClick={() => setRating(n)}
-              className={`text-2xl transition-transform ${n <= rating ? "scale-110" : "opacity-30"}`}
+              className={`text-2xl transition-transform ${n <= rating ? "text-harvest-gold scale-110" : "text-sand"}`}
             >
-              🥣
+              ★
             </button>
           ))}
         </div>
@@ -172,16 +177,16 @@ function NoteEditor({
 
       {/* Flavor tags */}
       <div className="mb-4">
-        <p className="mb-2 text-xs font-medium text-stone-500">Flavor Tags</p>
+        <p className="mb-2 text-xs tracking-[0.15em] uppercase text-taupe">Flavor Tags</p>
         <div className="flex flex-wrap gap-1">
           {FLAVOR_TAGS.map((tag) => (
             <button
               key={tag}
               onClick={() => toggleTag(tag)}
-              className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+              className={`px-3 py-1 text-xs uppercase tracking-wider border transition-colors ${
                 tags.includes(tag)
-                  ? "bg-amber-500 text-white"
-                  : "bg-stone-100 text-stone-600"
+                  ? "bg-harvest-gold border-harvest-gold text-cream"
+                  : "border-sand text-taupe hover:border-espresso"
               }`}
             >
               {tag}
@@ -195,18 +200,18 @@ function NoteEditor({
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value.slice(0, 140))}
-          className="block w-full rounded-lg border border-stone-200 px-3 py-2 text-sm"
+          className="input-vintage text-sm"
           rows={2}
           maxLength={140}
           placeholder="Quick thoughts? (140 chars)"
         />
-        <p className="mt-1 text-right text-xs text-stone-400">{text.length}/140</p>
+        <p className="mt-1 text-right text-xs text-taupe">{text.length}/140</p>
       </div>
 
       <button
         onClick={handleSave}
         disabled={rating === 0}
-        className="rounded-lg bg-amber-500 px-4 py-2 text-sm font-medium text-stone-900 hover:bg-amber-400 disabled:opacity-50"
+        className="btn-vintage-filled disabled:opacity-50"
       >
         Save Note
       </button>

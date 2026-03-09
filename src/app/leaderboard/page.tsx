@@ -3,7 +3,11 @@ import { LeaderboardClient } from "./leaderboard-client";
 
 export default function LeaderboardPage() {
   return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center"><p className="text-stone-400">Loading leaderboard...</p></div>}>
+    <Suspense fallback={
+      <div className="mx-auto max-w-lg px-6 py-20 text-center">
+        <p className="text-taupe italic" style={{ fontFamily: "var(--font-lora)" }}>Loading leaderboard...</p>
+      </div>
+    }>
       <LeaderboardClient />
     </Suspense>
   );
