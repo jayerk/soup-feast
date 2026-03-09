@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 
 interface LeaderboardData {
   votePulse: { cast: number; total: number };
@@ -13,13 +12,13 @@ interface LeaderboardData {
 }
 
 const SOUP_FACTS = [
-  "The world's oldest soup recipe is from 6000 BC.",
+  "The world\u2019s oldest soup recipe is from 6000 BC.",
   "Americans consume over 10 billion bowls of soup each year.",
   "Soup was one of the first foods to be canned commercially.",
-  "The word 'soup' comes from the French 'soupe' meaning broth.",
+  "The word \u2018soup\u2019 comes from the French \u2018soupe\u2019 meaning broth.",
   "Astronauts eat dehydrated soup in space.",
-  "Bird's nest soup can cost up to $100 per bowl.",
-  "Campbell's sells about 2.5 billion bowls of soup a year.",
+  "Bird\u2019s nest soup can cost up to $100 per bowl.",
+  "Campbell\u2019s sells about 2.5 billion bowls of soup a year.",
   "Soup kitchens date back to at least the 1700s.",
   "In Japan, slurping soup is considered polite.",
   "The largest bowl of soup was 6,656 gallons.",
@@ -59,60 +58,59 @@ export function LeaderboardClient() {
 
   if (!data) {
     return (
-      <div className={`flex min-h-screen items-center justify-center ${tvMode ? "bg-stone-950" : "bg-stone-50"}`}>
-        <p className={tvMode ? "text-stone-500" : "text-stone-400"}>Loading leaderboard...</p>
+      <div className="mx-auto max-w-lg px-6 py-20 text-center">
+        <p className="text-taupe italic" style={{ fontFamily: "var(--font-lora)" }}>Loading leaderboard...</p>
       </div>
     );
   }
 
+  // TV Mode — keeps dark for big screen projection
   if (tvMode) {
     const blocks = [
-      // Vote Pulse
       <div key="pulse" className="flex flex-col items-center justify-center">
-        <p className="mb-4 text-2xl text-stone-400">Ballots Cast</p>
-        <p className="text-8xl font-bold text-amber-400">{data.votePulse.cast}</p>
+        <p className="mb-4 text-2xl text-stone-400" style={{ fontFamily: "var(--font-lora)" }}>Ballots Cast</p>
+        <p className="text-8xl font-bold text-amber-200" style={{ fontFamily: "var(--font-playfair)" }}>{data.votePulse.cast}</p>
         <p className="mt-2 text-xl text-stone-500">of ~{data.votePulse.total}</p>
-        <div className="mt-6 h-4 w-96 overflow-hidden rounded-full bg-stone-800">
+        <div className="mt-6 h-4 w-96 overflow-hidden bg-stone-800">
           <div
-            className="h-full rounded-full bg-amber-400 transition-all duration-1000"
+            className="h-full bg-amber-200 transition-all duration-1000"
             style={{ width: `${Math.min((data.votePulse.cast / Math.max(data.votePulse.total, 1)) * 100, 100)}%` }}
           />
         </div>
       </div>,
-      // Top 5
       <div key="top5" className="w-full max-w-2xl">
-        <p className="mb-6 text-center text-2xl text-stone-400">Current Top 5</p>
+        <p className="mb-6 text-center text-2xl text-stone-400" style={{ fontFamily: "var(--font-lora)" }}>Current Top 5</p>
         <div className="space-y-4">
           {data.top5.map((soup, i) => (
-            <div key={soup.soupId} className="flex items-center gap-4 rounded-xl bg-stone-800/50 px-6 py-4">
-              <span className="text-4xl font-bold text-amber-400">#{i + 1}</span>
+            <div key={soup.soupId} className="flex items-center gap-4 border border-stone-700 px-6 py-4">
+              <span className="text-4xl font-bold text-amber-200" style={{ fontFamily: "var(--font-playfair)" }}>
+                {i + 1}
+              </span>
               <div className="flex-1">
-                <p className="text-xl font-semibold text-white">{soup.name}</p>
-                <p className="text-stone-400">by {soup.cookName}</p>
+                <p className="text-xl font-semibold text-white" style={{ fontFamily: "var(--font-playfair)" }}>{soup.name}</p>
+                <p className="text-stone-400 italic" style={{ fontFamily: "var(--font-lora)" }}>by {soup.cookName}</p>
               </div>
-              <span className="text-2xl font-bold text-stone-300">{soup.votes}</span>
+              <span className="text-2xl font-bold text-stone-300" style={{ fontFamily: "var(--font-playfair)" }}>{soup.votes}</span>
             </div>
           ))}
           {data.top5.length === 0 && (
-            <p className="text-center text-stone-500">No votes yet — start tasting!</p>
+            <p className="text-center text-stone-500 italic" style={{ fontFamily: "var(--font-lora)" }}>No votes yet &mdash; start tasting!</p>
           )}
         </div>
       </div>,
-      // Soup Fact
       <div key="fact" className="max-w-2xl text-center">
-        <p className="mb-4 text-xl text-stone-400">Did You Know?</p>
-        <p className="text-3xl font-semibold text-white">{SOUP_FACTS[factIndex]}</p>
+        <p className="mb-4 text-xs tracking-[0.3em] uppercase text-stone-500">Did You Know?</p>
+        <p className="text-3xl font-semibold text-white" style={{ fontFamily: "var(--font-playfair)" }}>{SOUP_FACTS[factIndex]}</p>
       </div>,
-      // Dietary Breakdown
       <div key="dietary" className="w-full max-w-lg">
-        <p className="mb-6 text-center text-2xl text-stone-400">This Year&rsquo;s Lineup</p>
+        <p className="mb-6 text-center text-2xl text-stone-400" style={{ fontFamily: "var(--font-lora)" }}>This Year&rsquo;s Lineup</p>
         <div className="space-y-3">
           {Object.entries(data.dietaryBreakdown).map(([tag, count]) => (
             <div key={tag} className="flex items-center gap-3">
-              <span className="w-32 text-right text-stone-400">{tag}</span>
-              <div className="h-8 flex-1 overflow-hidden rounded-full bg-stone-800">
+              <span className="w-32 text-right text-stone-400 text-sm" style={{ fontFamily: "var(--font-lora)" }}>{tag}</span>
+              <div className="h-6 flex-1 overflow-hidden bg-stone-800">
                 <div
-                  className="h-full rounded-full bg-green-500 transition-all"
+                  className="h-full bg-avocado transition-all"
                   style={{ width: `${(count / Math.max(data.totalSoups, 1)) * 100}%` }}
                 />
               </div>
@@ -125,7 +123,10 @@ export function LeaderboardClient() {
 
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-stone-950 p-12">
-        <h1 className="mb-12 text-center text-4xl font-bold text-amber-400">
+        <h1
+          className="mb-12 text-center text-4xl font-bold text-amber-200"
+          style={{ fontFamily: "var(--font-playfair)" }}
+        >
           The Great Soup Feast
         </h1>
         <div className="flex-1 flex items-center justify-center w-full">
@@ -135,53 +136,73 @@ export function LeaderboardClient() {
     );
   }
 
-  // Phone mode
+  // Phone mode — editorial style
   return (
-    <div className="min-h-screen bg-stone-50 px-4 py-8">
-      <div className="mx-auto max-w-lg">
-        <Link href="/" className="mb-6 inline-block text-sm text-stone-500 hover:text-stone-700">
-          &larr; Back
-        </Link>
-        <h1 className="mb-6 text-2xl font-bold text-stone-900">Live Leaderboard</h1>
+    <div className="mx-auto max-w-lg px-6 py-12">
+      <p className="text-xs tracking-[0.3em] uppercase text-taupe mb-4">Live</p>
+      <h2
+        className="text-4xl font-bold text-espresso mb-8"
+        style={{ fontFamily: "var(--font-playfair)" }}
+      >
+        Leaderboard
+      </h2>
 
-        {/* Vote pulse */}
-        <div className="mb-6 rounded-xl border border-stone-200 bg-white p-6 text-center">
-          <p className="text-sm text-stone-500">Ballots Cast</p>
-          <p className="text-4xl font-bold text-stone-900">{data.votePulse.cast}</p>
-          <p className="text-sm text-stone-400">of ~{data.votePulse.total}</p>
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-stone-200">
-            <div
-              className="h-full rounded-full bg-amber-500 transition-all"
-              style={{ width: `${Math.min((data.votePulse.cast / Math.max(data.votePulse.total, 1)) * 100, 100)}%` }}
-            />
-          </div>
+      {/* Vote pulse */}
+      <div className="card-editorial text-center mb-8">
+        <p className="text-xs tracking-[0.15em] uppercase text-taupe mb-2">Ballots Cast</p>
+        <p
+          className="text-4xl font-bold text-espresso"
+          style={{ fontFamily: "var(--font-playfair)" }}
+        >
+          {data.votePulse.cast}
+        </p>
+        <p className="text-sm text-taupe">of ~{data.votePulse.total}</p>
+        <div className="mt-3 h-2 overflow-hidden bg-parchment">
+          <div
+            className="h-full bg-harvest-gold transition-all"
+            style={{ width: `${Math.min((data.votePulse.cast / Math.max(data.votePulse.total, 1)) * 100, 100)}%` }}
+          />
         </div>
+      </div>
 
-        {/* Top 5 */}
-        <div className="mb-6">
-          <h2 className="mb-3 text-lg font-semibold text-stone-900">Top 5</h2>
-          <div className="space-y-2">
-            {data.top5.map((soup, i) => (
-              <div key={soup.soupId} className="flex items-center gap-3 rounded-lg border border-stone-200 bg-white px-4 py-3">
-                <span className="text-lg font-bold text-amber-600">#{i + 1}</span>
-                <div className="flex-1">
-                  <p className="font-medium text-stone-900">{soup.name}</p>
-                  <p className="text-xs text-stone-500">by {soup.cookName}</p>
-                </div>
-                <span className="text-sm font-semibold text-stone-600">{soup.votes} votes</span>
+      {/* Top 5 */}
+      <div className="mb-8">
+        <h3
+          className="text-lg font-bold text-espresso mb-4"
+          style={{ fontFamily: "var(--font-playfair)" }}
+        >
+          Top 5
+        </h3>
+        <div className="space-y-2">
+          {data.top5.map((soup, i) => (
+            <div key={soup.soupId} className="flex items-center gap-3 border border-sand bg-white px-4 py-3">
+              <span
+                className="text-lg font-bold text-wine"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                {i + 1}
+              </span>
+              <div className="flex-1">
+                <p className="font-semibold text-espresso">{soup.name}</p>
+                <p className="text-xs text-taupe italic">by {soup.cookName}</p>
               </div>
-            ))}
-            {data.top5.length === 0 && (
-              <p className="py-6 text-center text-stone-400">No votes yet</p>
-            )}
-          </div>
+              <span className="text-sm font-semibold text-taupe">{soup.votes}</span>
+            </div>
+          ))}
+          {data.top5.length === 0 && (
+            <p className="py-6 text-center text-taupe italic" style={{ fontFamily: "var(--font-lora)" }}>
+              No votes yet
+            </p>
+          )}
         </div>
+      </div>
 
-        {/* Soup fact */}
-        <div className="rounded-xl border border-stone-200 bg-white p-4 text-center">
-          <p className="text-xs font-medium text-stone-400">Soup Fact</p>
-          <p className="mt-1 text-sm text-stone-700">{SOUP_FACTS[factIndex]}</p>
-        </div>
+      {/* Soup fact */}
+      <div className="card-editorial text-center">
+        <p className="text-xs tracking-[0.15em] uppercase text-taupe mb-2">Soup Fact</p>
+        <p className="text-sm text-espresso italic" style={{ fontFamily: "var(--font-lora)" }}>
+          {SOUP_FACTS[factIndex]}
+        </p>
       </div>
     </div>
   );

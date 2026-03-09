@@ -13,7 +13,6 @@ async function getArchiveData() {
       orderBy("year", "desc")
     );
 
-    // Enrich revealed events with counts
     const enriched: { id: string; name: string; location: string; soups: Record<string, unknown>[]; _count: { guests: number; ballots: number } }[] = [];
     for (const event of revealedEvents) {
       const soups = await getAll(Collections.soups, where("eventId", "==", event.id));
@@ -39,100 +38,128 @@ export default async function ArchivePage() {
   const hasData = archiveEvents.length > 0 || revealedEvents.length > 0;
 
   return (
-    <div className="min-h-screen bg-stone-50 px-4 py-12">
-      <div className="mx-auto max-w-3xl">
-        <Link href="/" className="mb-6 inline-block text-sm text-stone-500 hover:text-stone-700">
-          &larr; Back to home
-        </Link>
-        <h1 className="mb-2 text-3xl font-bold text-stone-900">Soup Feast Archive</h1>
-        <p className="mb-8 text-stone-500">The history and lore of The Great Soup Feast.</p>
+    <div className="mx-auto max-w-3xl px-6 py-12">
+      <p className="text-xs tracking-[0.3em] uppercase text-taupe mb-4">The Record</p>
+      <h2
+        className="text-4xl font-bold text-espresso mb-2"
+        style={{ fontFamily: "var(--font-playfair)" }}
+      >
+        Soup Feast Archive
+      </h2>
+      <p className="text-taupe mb-10" style={{ fontFamily: "var(--font-lora)" }}>
+        The history and lore of The Great Soup Feast.
+      </p>
 
-        {!hasData && (
-          <div className="py-20 text-center text-stone-400">
-            <p className="text-5xl mb-4">📚</p>
-            <p>No archived events yet. History starts here.</p>
-          </div>
-        )}
+      {!hasData && (
+        <div className="py-20 text-center text-taupe">
+          <p
+            className="text-3xl font-bold text-espresso mb-4"
+            style={{ fontFamily: "var(--font-playfair)" }}
+          >
+            No history yet.
+          </p>
+          <p className="italic" style={{ fontFamily: "var(--font-lora)" }}>
+            Every tradition has to start somewhere.
+          </p>
+        </div>
+      )}
 
-        {/* Archive events (backfilled years) */}
-        {archiveEvents.map((ev) => {
-          const year = ev.year as number;
-          const location = ev.location as string | null;
-          const totalSoups = ev.totalSoups as number | null;
-          const totalGuests = ev.totalGuests as number | null;
-          const championSoup = ev.championSoup as string | null;
-          const championCook = ev.championCook as string | null;
-          const runnerUpSoup = ev.runnerUpSoup as string | null;
-          const runnerUpCook = ev.runnerUpCook as string | null;
-          const soupList = (ev.soupList as string[]) || [];
-          return (
-            <div key={ev.id as string} className="mb-6 rounded-xl border border-stone-200 bg-white p-6">
-              <div className="mb-4 flex items-center justify-between">
-                <div>
-                  <h2 className="text-xl font-bold text-stone-900">Year {year - 2023}: {year}</h2>
-                  {location && <p className="text-sm text-stone-500">{location}</p>}
-                </div>
-                <div className="text-right text-sm text-stone-400">
-                  {totalSoups && <p>{totalSoups} soups</p>}
-                  {totalGuests && <p>{totalGuests} guests</p>}
-                </div>
-              </div>
-
-              {championSoup && (
-                <div className="mb-3 rounded-lg bg-amber-50 p-4">
-                  <p className="text-xs font-medium text-amber-600">Champion</p>
-                  <p className="text-lg font-bold text-stone-900">{championSoup}</p>
-                  {championCook && <p className="text-sm text-stone-600">by {championCook}</p>}
-                </div>
-              )}
-
-              {runnerUpSoup && (
-                <div className="mb-3 rounded-lg bg-stone-50 p-3">
-                  <p className="text-xs font-medium text-stone-400">Runner-Up</p>
-                  <p className="font-medium text-stone-800">{runnerUpSoup}</p>
-                  {runnerUpCook && <p className="text-sm text-stone-500">by {runnerUpCook}</p>}
-                </div>
-              )}
-
-              {soupList.length > 0 && (
-                <details className="mt-4">
-                  <summary className="cursor-pointer text-sm font-medium text-stone-500 hover:text-stone-700">
-                    View all soups ({soupList.length})
-                  </summary>
-                  <ul className="mt-2 grid grid-cols-2 gap-1 text-sm text-stone-600">
-                    {soupList.map((name, i) => (
-                      <li key={i}>• {name}</li>
-                    ))}
-                  </ul>
-                </details>
-              )}
-            </div>
-          );
-        })}
-
-        {/* Revealed events from current data */}
-        {revealedEvents.map((event) => (
-          <div key={event.id} className="mb-6 rounded-xl border border-stone-200 bg-white p-6">
-            <div className="mb-4 flex items-center justify-between">
+      {/* Archive events (backfilled years) */}
+      {archiveEvents.map((ev) => {
+        const year = ev.year as number;
+        const location = ev.location as string | null;
+        const totalSoups = ev.totalSoups as number | null;
+        const totalGuests = ev.totalGuests as number | null;
+        const championSoup = ev.championSoup as string | null;
+        const championCook = ev.championCook as string | null;
+        const runnerUpSoup = ev.runnerUpSoup as string | null;
+        const runnerUpCook = ev.runnerUpCook as string | null;
+        const soupList = (ev.soupList as string[]) || [];
+        return (
+          <div key={ev.id as string} className="mb-8 card-editorial">
+            <div className="mb-4 flex items-start justify-between">
               <div>
-                <h2 className="text-xl font-bold text-stone-900">{event.name}</h2>
-                <p className="text-sm text-stone-500">{event.location}</p>
+                <h3
+                  className="text-2xl font-bold text-espresso"
+                  style={{ fontFamily: "var(--font-playfair)" }}
+                >
+                  Year {year - 2023}: {year}
+                </h3>
+                {location && <p className="text-sm text-taupe mt-1">{location}</p>}
               </div>
-              <div className="text-right text-sm text-stone-400">
-                <p>{event.soups.length} soups</p>
-                <p>{event._count.guests} guests</p>
-                <p>{event._count.ballots} votes</p>
+              <div className="text-right text-sm text-taupe">
+                {totalSoups && <p>{totalSoups} soups</p>}
+                {totalGuests && <p>{totalGuests} guests</p>}
               </div>
             </div>
-            <Link
-              href="/results"
-              className="text-sm font-medium text-soup-orange hover:underline"
-            >
-              View full results
-            </Link>
+
+            {championSoup && (
+              <div className="mb-4 border-l-2 border-harvest-gold pl-4 py-2">
+                <p className="text-xs tracking-[0.15em] uppercase text-harvest-gold mb-1">Champion</p>
+                <p
+                  className="text-lg font-bold text-espresso"
+                  style={{ fontFamily: "var(--font-playfair)" }}
+                >
+                  {championSoup}
+                </p>
+                {championCook && <p className="text-sm text-taupe italic">by {championCook}</p>}
+              </div>
+            )}
+
+            {runnerUpSoup && (
+              <div className="mb-4 border-l-2 border-sand pl-4 py-2">
+                <p className="text-xs tracking-[0.15em] uppercase text-taupe mb-1">Runner-Up</p>
+                <p className="font-semibold text-espresso" style={{ fontFamily: "var(--font-playfair)" }}>
+                  {runnerUpSoup}
+                </p>
+                {runnerUpCook && <p className="text-sm text-taupe italic">by {runnerUpCook}</p>}
+              </div>
+            )}
+
+            {soupList.length > 0 && (
+              <details className="mt-4">
+                <summary className="cursor-pointer text-xs tracking-[0.15em] uppercase text-taupe hover:text-espresso transition-colors">
+                  View all soups ({soupList.length})
+                </summary>
+                <ul className="mt-3 grid grid-cols-2 gap-1 text-sm text-taupe" style={{ fontFamily: "var(--font-lora)" }}>
+                  {soupList.map((name, i) => (
+                    <li key={i}>{name}</li>
+                  ))}
+                </ul>
+              </details>
+            )}
           </div>
-        ))}
-      </div>
+        );
+      })}
+
+      {/* Revealed events from current data */}
+      {revealedEvents.map((event) => (
+        <div key={event.id} className="mb-8 card-editorial">
+          <div className="mb-4 flex items-start justify-between">
+            <div>
+              <h3
+                className="text-2xl font-bold text-espresso"
+                style={{ fontFamily: "var(--font-playfair)" }}
+              >
+                {event.name}
+              </h3>
+              <p className="text-sm text-taupe mt-1">{event.location}</p>
+            </div>
+            <div className="text-right text-sm text-taupe">
+              <p>{event.soups.length} soups</p>
+              <p>{event._count.guests} guests</p>
+              <p>{event._count.ballots} votes</p>
+            </div>
+          </div>
+          <Link
+            href="/results"
+            className="text-sm text-wine hover:underline"
+            style={{ fontFamily: "var(--font-lora)" }}
+          >
+            View full results &rarr;
+          </Link>
+        </div>
+      ))}
     </div>
   );
 }
