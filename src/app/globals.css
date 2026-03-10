@@ -1,10 +1,124 @@
 @import "tailwindcss";
 
+:root {
+  --font-playfair: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-lora: "Lora", Georgia, "Times New Roman", serif;
+}
+
 @theme {
-  --color-soup-red: #b91c1c;
-  --color-soup-orange: #c2410c;
-  --color-soup-amber: #b45309;
-  --color-soup-green: #15803d;
-  --color-soup-cream: #fef3c7;
-  --color-soup-brown: #78350f;
+  /* Gourmet earth-tone palette */
+  --color-cream: #FDF6E3;
+  --color-parchment: #F5E6C8;
+  --color-sand: #D4C5A9;
+  --color-taupe: #8B7355;
+  --color-espresso: #3D2B1F;
+  --color-burnt-orange: #C2410C;
+  --color-harvest-gold: #B8860B;
+  --color-avocado: #5F6B2D;
+  --color-wine: #722F37;
+  --color-olive: #808000;
+  --color-terracotta: #CC5801;
+  --color-mushroom: #A0937D;
+}
+
+/* Editorial base styles */
+body {
+  background-color: var(--color-cream);
+  color: var(--color-espresso);
+}
+
+/* Elegant horizontal rules */
+hr {
+  border-color: var(--color-sand);
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--color-parchment);
+  color: var(--color-espresso);
+}
+
+/* Decorative divider utility */
+.divider-ornament::after {
+  content: "◆";
+  display: block;
+  text-align: center;
+  color: var(--color-harvest-gold);
+  font-size: 0.75rem;
+  letter-spacing: 0.5em;
+  margin-top: 1rem;
+}
+
+/* Editorial drop cap */
+.drop-cap::first-letter {
+  float: left;
+  font-size: 3.5em;
+  line-height: 0.8;
+  padding-right: 0.1em;
+  padding-top: 0.05em;
+  color: var(--color-wine);
+  font-weight: 700;
+}
+
+/* Vintage button style */
+.btn-vintage {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  border: 2px solid var(--color-espresso);
+  color: var(--color-espresso);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-vintage:hover {
+  background-color: var(--color-espresso);
+  color: var(--color-cream);
+}
+
+.btn-vintage-filled {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background-color: var(--color-wine);
+  border: 2px solid var(--color-wine);
+  color: var(--color-cream);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-vintage-filled:hover {
+  background-color: var(--color-espresso);
+  border-color: var(--color-espresso);
+}
+
+/* Form inputs vintage style */
+.input-vintage {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-sand);
+  background-color: white;
+  color: var(--color-espresso);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.input-vintage:focus {
+  outline: none;
+  border-color: var(--color-harvest-gold);
+  box-shadow: 0 0 0 1px var(--color-harvest-gold);
+}
+
+/* Card style */
+.card-editorial {
+  background-color: white;
+  border: 1px solid var(--color-sand);
+  padding: 2rem;
 }
